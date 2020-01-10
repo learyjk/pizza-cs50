@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for title, form in data.items %}
+
+<h1>{{ title }}</h1>
+
+<form action="{% url 'cart' %}" method="post" id="{{ title }}">
+    {% csrf_token %}
+    <input type="hidden" value="{{ title }}" name="menu_item" />
+
+    {{ form.as_p }}
+
+    <input type="submit" value="Add to Cart" />
+</form>
+<p></p>
+
+{% endfor %}
+
+{% endblock %}
