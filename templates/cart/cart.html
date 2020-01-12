@@ -2,7 +2,8 @@
 
 {% block content %}
 
-<p>Shopping Cart</p>
+<h1 class="text-center">Shopping Cart</h1>
+<br>
 
 <table class="table table-sm">
     <thead>
@@ -16,6 +17,15 @@
             <th scope="col"></th>
         </tr>
     </thead>
+    <tfoot>
+        <tr>
+            <td colspan="4"></td>
+
+            <td><strong>TOTAL:</strong></td>
+            <td><strong>${{ total_cost | floatformat:2}}</strong></td>
+
+        </tr>
+    </tfoot>
     <tbody>
         {% for item in cart_items %}
         <tr>
@@ -31,6 +41,15 @@
     </tbody>
 </table>
 
+{% if cart_items %}
+<form action="#" method="POST">
+    {% csrf_token %}
+
+    <input type="submit" value="Checkout : ${{ total_cost | floatformat:2}}" class="btn btn-success btn-block">
+</form>
+{% else %}
+<a class="btn btn-success btn-block" href="{% url 'index' %}">Continue Shopping</a>
+{% endif %}
 
 
 {% endblock %}

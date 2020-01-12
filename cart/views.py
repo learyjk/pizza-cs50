@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from orders.forms import PizzaForm, SubForm, PastaForm, SaladForm, DinnerPlatterForm
 from orders.models import Pizza, Sub, Pasta, Salad, DinnerPlatter
 from cart.models import CartItem
+from django.db.models import Sum
 from decimal import Decimal
 
 
@@ -111,10 +112,15 @@ def cart(request):
             redirect('index')
 
         cart_items = get_cart_items(request)
+        if cart_items:
+            total_cost = Decimal(cart_items.aggregate(Sum('price'))['price__sum'])
+        else:
+            total_cost = 0
 
         context = {
             'cart_items': cart_items,
-            'num_cart_items': cart_items.count()
+            'num_cart_items': cart_items.count(),
+            'total_cost': total_cost
         }
 
         return render(request, 'cart/cart.html', context)
@@ -123,10 +129,17 @@ def cart(request):
 
         # Display Shopping Cart for GET request
         cart_items = get_cart_items(request)
+        if cart_items:
+            total_cost = Decimal(cart_items.aggregate(Sum('price'))['price__sum'])
+        else:
+            total_cost = 0
+
+
 
         context = {
             'cart_items': cart_items,
-            'num_cart_items': cart_items.count()
+            'num_cart_items': cart_items.count(),
+            'total_cost': total_cost
         }
         return render(request, 'cart/cart.html', context)
 
