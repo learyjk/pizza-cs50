@@ -131,6 +131,12 @@ def cart(request):
         return render(request, 'cart/cart.html', context)
 
 
+def remove(request, cart_item_id):
+    cart_item = CartItem.objects.filter(id=cart_item_id)
+    cart_item.delete()
+    return redirect('cart')
+
+
 # Helper Funcitons
 def get_cart_items(request):
     cart_items = CartItem.objects.filter(user_id=request.user.id)
