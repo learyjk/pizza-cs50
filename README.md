@@ -14,3 +14,7 @@ Bugs/Issues:
 2. Would be great to have price data available while the user builds his/her order in the forms.  Could be accomplished using AJAX requests to the Django models to get price data perhaps?
 3. No max setting for checkout.  I.e. as time goes on, orders are never deleted from OrderItems table.  Since this website will never go in to production, I just decided to handle table size manually (i.e. "I'll just delete them myself when the list seems too long.").  Consider a code block that deletes completed orders after it is more than 7 days old or something like that.
 4. the app names "orders" should probably be name "menu".  However, since the project template comes with the "orders" app already created, and the Requirements document says to use models.py in that app, I kept it as is.  The orders functionality is handled in the cart app by 'checkout' view.
+
+Notes:
+1. I started this project wildly confused with Django.  The following Udemy course helped me incredibly to understand Django basics and I would highly recommend if you are having difficulties getting started:
+https://www.udemy.com/course/python-django-dev-to-deployment/learn/lecture/12056452#overview
