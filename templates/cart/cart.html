@@ -42,7 +42,7 @@
 </table>
 
 {% if cart_items %}
-<form action="#" method="POST">
+<form action="{% url 'checkout' %}" method="POST">
     {% csrf_token %}
 
     <input type="submit" value="Checkout : ${{ total_cost | floatformat:2}}" class="btn btn-success btn-block">

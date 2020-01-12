@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from .forms import PizzaForm, SubForm, PastaForm, SaladForm, DinnerPlatterForm
-from cart.models import CartItem
 from cart.views import get_cart_items
 
 

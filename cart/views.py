@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from orders.forms import PizzaForm, SubForm, PastaForm, SaladForm, DinnerPlatterForm
 from orders.models import Pizza, Sub, Pasta, Salad, DinnerPlatter
-from cart.models import CartItem
+from cart.models import CartItem, OrderItem
 from django.db.models import Sum
 from decimal import Decimal
 
@@ -134,8 +134,6 @@ def cart(request):
         else:
             total_cost = 0
 
-
-
         context = {
             'cart_items': cart_items,
             'num_cart_items': cart_items.count(),
@@ -144,10 +142,62 @@ def cart(request):
         return render(request, 'cart/cart.html', context)
 
 
+def checkout(request):
+    if request.method == "POST":
+
+        cart_items = get_cart_items(request)
+
+        for item in cart_items:
+            menu = item.menu
+            size = item.size
+            style = item.style
+            additional = item.additional
+            is_special = item.is_special
+            price = item.price
+            user_id = item.user_id
+            order = OrderItem(menu=menu, size=size, style=style, additional=additional, is_special=is_special, price=price, user_id=user_id)
+            order.save()
+            item.delete()
+
+        all_order_items = OrderItem.objects.order_by('is_complete', 'created_at')
+
+        user_order_items = all_order_items.filter(user_id=request.user.id)
+        cart_items = get_cart_items(request)
+
+        context = {
+            'cart_items': cart_items,
+            'all_order_items': all_order_items,
+            'user_order_items': user_order_items,
+            'num_cart_items': cart_items.count(),
+        }
+
+        return render(request, 'cart/checkout.html', context)
+    else:
+        all_order_items = OrderItem.objects.order_by('is_complete', 'created_at')
+
+        user_order_items = all_order_items.filter(user_id=request.user.id)
+        cart_items = get_cart_items(request)
+
+        context = {
+            'cart_items': cart_items,
+            'all_order_items': all_order_items,
+            'user_order_items': user_order_items,
+            'num_cart_items': cart_items.count(),
+        }
+
+        return render(request, 'cart/checkout.html', context)
+
+
 def remove(request, cart_item_id):
     cart_item = CartItem.objects.filter(id=cart_item_id)
     cart_item.delete()
     return redirect('cart')
+
+
+def mark_complete(request, order_item_id):
+    order_item = OrderItem.objects.filter(id=order_item_id)
+    order_item.update(is_complete=True)
+    return redirect('checkout')
 
 
 # Helper Funcitons

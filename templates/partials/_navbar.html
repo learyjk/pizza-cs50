@@ -11,7 +11,10 @@
                 <li class="nav-item nav-link text-white mr-3">
                     Welcome, {{ user.username }}
                 </li>
-                <li {% if 'cart' in request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}>
+                <li {% if 'checkout' in request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}>
+                    <a class="nav-link" href="{% url 'checkout' %}">Orders</a>
+                </li>
+                <li {% if 'cart' in request.path and 'checkout' not in request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}>
                     <a class="nav-link" href="{% url 'cart' %}">Cart ({{num_cart_items}})</a>
                 </li>
                 <li class="nav-item mr-3">
