@@ -13,7 +13,7 @@
     {{ form.as_p }}
 
     <h5 id='price_indicator'>Price: $--.--</h5>
-    <input type="submit" value="Add {{title}} to Cart" />
+    <input type="submit" value="Add {{ title }} to Cart" />
 </form>
 <p></p>
 
@@ -24,12 +24,16 @@
 {% block javascript %}
 <script>
     $(document).ready(function() {
+        $('#Pizza').submit(function() {
+
+        });
         $('#Pizza').change(function() {
             var menu_item = $('#Pizza #menu_item').val();
             var style = $('#Pizza #id_style option:selected').val();
             var size = $('#Pizza #id_size option:selected').val();
             var num_toppings = $('#Pizza #id_num_toppings').val();
             var is_special = $('#Pizza #id_is_special').is(':checked');
+            var num_checked = $("#Pizza #id_toppings input[name='extras']:checked").length;
             // alert(style + " " + size + " " + num_toppings + " " + is_special);
 
             $.ajax({
@@ -117,11 +121,10 @@
 
             });
         });
-        $("#Dinner Platter").change(function() {
-            aler('DP');
-            var menu_item = $("'#Dinner Platter' #menu_item").val();
-            var style = $("'#Dinner Platter' #id_style option:selected").val();
-            var size = $("'#Dinner Platter' #id_size option:selected").val();
+        $('#DinnerPlatter').change(function() {
+            var menu_item = $('#DinnerPlatter #menu_item').val();
+            var style = $('#DinnerPlatter #id_style option:selected').val();
+            var size = $('#DinnerPlatter #id_size option:selected').val();
 
             $.ajax({
                 type: "GET",
@@ -134,7 +137,7 @@
                 dataType: 'json',
                 success: function(data) {
                     var x = data['price'];
-                    $("'#Dinner Platter' #price_indicator").html("Price: $" + x);
+                    $('#DinnerPlatter #price_indicator').html("Price: $" + x);
                 }
 
             });

@@ -15,7 +15,7 @@ def index(request):
             'Sub': SubForm(),
             'Pasta': PastaForm(),
             'Salad': SaladForm(),
-            'Dinner Platter': DinnerPlatterForm()
+            'DinnerPlatter': DinnerPlatterForm()
             }
 
         cart_items = get_cart_items(request)
@@ -32,6 +32,7 @@ def index(request):
 
 def get_price(request):
     menu_item = request.GET.get('menu_item')
+    price = "--.--"
     if menu_item == 'Pizza':
         style = request.GET.get('style')
         size = request.GET.get('size')
@@ -42,18 +43,20 @@ def get_price(request):
         else:
             is_special = False
 
-        if is_special:
-            # numtoppings doesn't matter
-            menu_pizza = Pizza.objects.get(style=style, size=size, is_special=is_special)
-        else:
-            menu_pizza = Pizza.objects.get(style=style, size=size, num_toppings=num_toppings, is_special=is_special)
-        price = menu_pizza.price
+        if style != "" and size != "" and num_toppings != "":
+            if is_special:
+                # numtoppings doesn't matter
+                menu_pizza = Pizza.objects.get(style=style, size=size, is_special=is_special)
+            else:
+                menu_pizza = Pizza.objects.get(style=style, size=size, num_toppings=num_toppings, is_special=is_special)
+            price = menu_pizza.price
     elif menu_item == 'Sub':
         ingredients = request.GET.get('ingredients')
         size = request.GET.get('size')
         extras = request.GET.get('extras')
-        menu_sub = Sub.objects.get(ingredients=ingredients, size=size)
-        price = menu_sub.price + Decimal(0.50)*int(extras)
+        if ingredients != "" and size != "":
+            menu_sub = Sub.objects.get(ingredients=ingredients, size=size)
+            price = menu_sub.price + Decimal(0.50)*int(extras)
     elif menu_item == 'Pasta':
         style = request.GET.get('style')
         menu_pasta = Pasta.objects.get(style=style)
@@ -62,13 +65,14 @@ def get_price(request):
         style = request.GET.get('style')
         menu_salad = Salad.objects.get(style=style)
         price = menu_salad.price
-    elif menu_item == 'Dinner Platter':
+    elif menu_item == 'DinnerPlatter':
         style = request.GET.get('style')
         size = request.GET.get('size')
-        menu_dinner_platter = DinnerPlatter.objects.get(style=style)
-        price = menu_dinner_platter.price
+        if style != "" and size != "":
+            menu_dinner_platter = DinnerPlatter.objects.get(style=style, size=size)
+            price = menu_dinner_platter.price
     else:
-        price = 0.00
+        price = "--.--"
     data = {
         'price': price
     }
