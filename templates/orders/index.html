@@ -12,7 +12,8 @@
 
     {{ form.as_p }}
 
-    <input type="submit" value="Add to Cart" />
+    <h5 id='price_indicator'>Price: $--.--</h5>
+    <input type="submit" value="Add {{title}} to Cart" />
 </form>
 <p></p>
 
@@ -21,5 +22,45 @@
 {% endblock %}
 
 {% block javascript %}
+<script>
+    $(document).ready(function() {
+        $('#Pizza').change(function() {
 
+            var style = $('#id_style option:selected').val();
+            var size = $('#id_size option:selected').val();
+            var num_toppings = $('#id_num_toppings').val();
+            var is_special = $('#id_is_special').is(':checked');
+            // alert(style + " " + size + " " + num_toppings + " " + is_special);
+
+            $.ajax({
+                type: "GET",
+                url: '{% url "get_price" %}',
+                data: {
+                    'style': style,
+                    'size': size,
+                    'num_toppings': num_toppings,
+                    'is_special': is_special,
+                },
+                dataType: 'json',
+                success: function(data) {
+                    var x = data['price'];
+                    $('#price_indicator').html("Price: $" + x);
+                }
+
+            });
+        });
+        $('#Sub').submit(function() {
+            if ($('#id_style').val() == 'Regular') {
+                alert('Regular');
+            }
+            alert($('#id_ingredients').val());
+        });
+        $('#Pasta').submit(function() {
+            if ($('#id_style').val() == 'Regular') {
+                alert('Regular');
+            }
+            alert($('#Pasta #id_style').val());
+        });
+    });
+</script>
 {% endblock %}
