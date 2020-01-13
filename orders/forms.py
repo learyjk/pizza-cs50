@@ -19,6 +19,9 @@ class SubForm(ModelForm):
     class Meta:
         model = Sub
         exclude = ['menu', 'price']
+        widgets = {
+            'extras': CheckboxSelectMultiple,
+        }
         labels = {
             'ingredients': 'Ingredients'
         }

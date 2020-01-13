@@ -8,7 +8,7 @@
 
 <form action="{% url 'cart' %}" method="post" id="{{ title }}">
     {% csrf_token %}
-    <input type="hidden" value="{{ title }}" name="menu_item" />
+    <input type="hidden" value="{{ title }}" name="menu_item" id="menu_item" />
 
     {{ form.as_p }}
 
@@ -25,17 +25,18 @@
 <script>
     $(document).ready(function() {
         $('#Pizza').change(function() {
-
-            var style = $('#id_style option:selected').val();
-            var size = $('#id_size option:selected').val();
-            var num_toppings = $('#id_num_toppings').val();
-            var is_special = $('#id_is_special').is(':checked');
+            var menu_item = $('#Pizza #menu_item').val();
+            var style = $('#Pizza #id_style option:selected').val();
+            var size = $('#Pizza #id_size option:selected').val();
+            var num_toppings = $('#Pizza #id_num_toppings').val();
+            var is_special = $('#Pizza #id_is_special').is(':checked');
             // alert(style + " " + size + " " + num_toppings + " " + is_special);
 
             $.ajax({
                 type: "GET",
                 url: '{% url "get_price" %}',
                 data: {
+                    'menu_item': menu_item,
                     'style': style,
                     'size': size,
                     'num_toppings': num_toppings,
@@ -44,22 +45,99 @@
                 dataType: 'json',
                 success: function(data) {
                     var x = data['price'];
-                    $('#price_indicator').html("Price: $" + x);
+                    $('#Pizza #price_indicator').html("Price: $" + x);
                 }
 
             });
         });
-        $('#Sub').submit(function() {
-            if ($('#id_style').val() == 'Regular') {
-                alert('Regular');
+        $('#Sub').change(function() {
+            var menu_item = $('#Sub #menu_item').val();
+            var ingredients = $('#Sub #id_ingredients option:selected').val();
+            var size = $('#Sub #id_size option:selected').val();
+            var extras = $("#Sub #id_extras input[name='extras']:checked").length;
+
+            // Cannot have a Small Sausage, Peppers, Onions edge case
+            if (ingredients == 11 && size == 1) {
+                alert("This option is only available in Large Size!");
+                $('#Sub #id_size option[value=2]').attr('selected', 'selected');
             }
-            alert($('#id_ingredients').val());
+
+            $.ajax({
+                type: "GET",
+                url: '{% url "get_price" %}',
+                data: {
+                    'menu_item': menu_item,
+                    'ingredients': ingredients,
+                    'size': size,
+                    'extras': extras,
+                },
+                dataType: 'json',
+                success: function(data) {
+                    var x = data['price'];
+                    $('#Sub #price_indicator').html("Price: $" + x);
+                }
+
+            });
         });
-        $('#Pasta').submit(function() {
-            if ($('#id_style').val() == 'Regular') {
-                alert('Regular');
-            }
-            alert($('#Pasta #id_style').val());
+        $('#Pasta').change(function() {
+            var menu_item = $('#Pasta #menu_item').val();
+            var style = $('#Pasta #id_style option:selected').val();
+
+            $.ajax({
+                type: "GET",
+                url: '{% url "get_price" %}',
+                data: {
+                    'menu_item': menu_item,
+                    'style': style,
+                },
+                dataType: 'json',
+                success: function(data) {
+                    var x = data['price'];
+                    $('#Pasta #price_indicator').html("Price: $" + x);
+                }
+
+            });
+        });
+        $('#Salad').change(function() {
+            var menu_item = $('#Salad #menu_item').val();
+            var style = $('#Salad #id_style option:selected').val();
+
+            $.ajax({
+                type: "GET",
+                url: '{% url "get_price" %}',
+                data: {
+                    'menu_item': menu_item,
+                    'style': style,
+                },
+                dataType: 'json',
+                success: function(data) {
+                    var x = data['price'];
+                    $('#Salad #price_indicator').html("Price: $" + x);
+                }
+
+            });
+        });
+        $("#Dinner Platter").change(function() {
+            aler('DP');
+            var menu_item = $("'#Dinner Platter' #menu_item").val();
+            var style = $("'#Dinner Platter' #id_style option:selected").val();
+            var size = $("'#Dinner Platter' #id_size option:selected").val();
+
+            $.ajax({
+                type: "GET",
+                url: '{% url "get_price" %}',
+                data: {
+                    'menu_item': menu_item,
+                    'style': style,
+                    'size': size,
+                },
+                dataType: 'json',
+                success: function(data) {
+                    var x = data['price'];
+                    $("'#Dinner Platter' #price_indicator").html("Price: $" + x);
+                }
+
+            });
         });
     });
 </script>
