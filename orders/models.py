@@ -70,8 +70,8 @@ class Pizza(models.Model):
     style = models.ForeignKey(PizzaStyle, on_delete=models.CASCADE)
     size = models.ForeignKey(Size, on_delete=models.CASCADE)
     is_special = models.BooleanField(default=False)
-    num_toppings = models.IntegerField()
     toppings = models.ManyToManyField(Topping, blank=True)
+    num_toppings = models.IntegerField()
     price = models.DecimalField(max_digits=5, default=0.00, decimal_places=2)
 
     def toppings_list(self):

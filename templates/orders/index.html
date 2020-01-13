@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
 
 {% for title, form in data.items %}
@@ -10,12 +12,12 @@
     {% csrf_token %}
     <input type="hidden" value="{{ title }}" name="menu_item" id="menu_item" />
 
-    {{ form.as_p }}
+    {{ form | crispy }}
 
     <h5 id='price_indicator'>Price: $--.--</h5>
     <input type="submit" value="Add {{ title }} to Cart" />
 </form>
-<p></p>
+<br><br><br>
 
 {% endfor %}
 
@@ -24,17 +26,25 @@
 {% block javascript %}
 <script>
     $(document).ready(function() {
-        $('#Pizza').submit(function() {
 
-        });
         $('#Pizza').change(function() {
             var menu_item = $('#Pizza #menu_item').val();
             var style = $('#Pizza #id_style option:selected').val();
             var size = $('#Pizza #id_size option:selected').val();
             var num_toppings = $('#Pizza #id_num_toppings').val();
             var is_special = $('#Pizza #id_is_special').is(':checked');
-            var num_checked = $("#Pizza #id_toppings input[name='extras']:checked").length;
-            // alert(style + " " + size + " " + num_toppings + " " + is_special);
+            var last_checked = $("#Pizza #id_toppings input[name='toppings']:checked").val();
+
+            var num_checked = $("input[name='toppings']:checked").length;
+            var limit = 3;
+
+            $('#Pizza #id_num_toppings').val(num_checked);
+
+            if (num_checked > limit) {
+                alert("You can only select up to 3 toppings!");
+                $("input[name='toppings']").prop('checked', false);
+                $('#Pizza #id_num_toppings').val('0');
+            }
 
             $.ajax({
                 type: "GET",
