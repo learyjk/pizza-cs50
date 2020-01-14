@@ -68,7 +68,7 @@
             var menu_item = $('#Sub #menu_item').val();
             var ingredients = $('#Sub #id_ingredients option:selected').val();
             var size = $('#Sub #id_size option:selected').val();
-            var extras = $("#Sub #id_extras input[name='extras']:checked").length;
+            var extras = $("input[name='extras']:checked").length;
 
             // Cannot have a Small Sausage, Peppers, Onions edge case
             if (ingredients == 11 && size == 1) {

@@ -54,9 +54,8 @@ def get_price(request):
         ingredients = request.GET.get('ingredients')
         size = request.GET.get('size')
         extras = request.GET.get('extras')
-        if ingredients != "" and size != "":
-            menu_sub = Sub.objects.get(ingredients=ingredients, size=size)
-            price = menu_sub.price + Decimal(0.50)*int(extras)
+        menu_sub = Sub.objects.get(ingredients=ingredients, size=size)
+        price = menu_sub.price + Decimal(0.50)*int(extras)
     elif menu_item == 'Pasta':
         style = request.GET.get('style')
         menu_pasta = Pasta.objects.get(style=style)
