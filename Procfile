@@ -1,1 +1,1 @@
-web: gunicorn pizza-cs50.wsgi --log-file -
+web: gunicorn app:pizza-cs50 --log-file=-
