@@ -92,7 +92,7 @@ def cart(request):
                 # Create the Cart Item
                 order = CartItem(menu=menu, style=style, user_id=request.user.id, price=price)
                 order.save()
-        elif request.POST['menu_item'] == 'Dinner Platter':
+        elif request.POST['menu_item'] == 'DinnerPlatter':
             form = DinnerPlatterForm(request.POST)
             if form.is_valid():
                 form = form.cleaned_data
