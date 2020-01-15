@@ -25,7 +25,6 @@ My personal touch is the functionality to mark orders as complete and also the l
 
 Bugs/Issues:
 1. jQuery Code to catch edge case of Sausage, Peppers, Onion Sub only in allowed in Large size works first time but you can change the select menu to 'Small' after that and try to pull for a menu item that doesn't exist that way.  Gives DoesNotExist error.  Consider performing the data validation on submit rather than on change.
-2. Cannot add DinnerPlatter items to cart.
 
 Notes:
 1. I started this project wildly confused with Django.  The following Udemy course helped me incredibly to understand Django basics and I would highly recommend if you are having difficulties getting started:
