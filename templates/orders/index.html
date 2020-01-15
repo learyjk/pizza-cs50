@@ -31,10 +31,8 @@
             var menu_item = $('#Pizza #menu_item').val();
             var style = $('#Pizza #id_style option:selected').val();
             var size = $('#Pizza #id_size option:selected').val();
-            var num_toppings = $('#Pizza #id_num_toppings').val();
             var is_special = $('#Pizza #id_is_special').is(':checked');
             var last_checked = $("#Pizza #id_toppings input[name='toppings']:checked").val();
-
             var num_checked = $("input[name='toppings']:checked").length;
             var limit = 3;
 
@@ -45,7 +43,7 @@
                 $("input[name='toppings']").prop('checked', false);
                 $('#Pizza #id_num_toppings').val('0');
             }
-
+            var num_toppings = $('#Pizza #id_num_toppings').val();
             $.ajax({
                 type: "GET",
                 url: '{% url "get_price" %}',
