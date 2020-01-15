@@ -96,7 +96,7 @@ def cart(request):
             form = DinnerPlatterForm(request.POST)
             if form.is_valid():
                 form = form.cleaned_data
-                menu = 'Dinner Platter'
+                menu = 'DinnerPlatter'
                 style = form['style']
                 size = form['size']
 
