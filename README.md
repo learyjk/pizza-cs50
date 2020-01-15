@@ -11,6 +11,9 @@ https://pizza-project3-cs50.herokuapp.com
 Pinochio's Pizza Menu:
 https://www.pinocchiospizza.net/menu.html
 
+YouTube Demo:
+https://pizza-project3-cs50.herokuapp.com
+
 This website allows users to order items form Harvard's famous Pinochio's Pizza Restaurant.  Users must first register and login after which they will have access to the full menu by clicking the title "Pinochio's Pizza" in the top left.  This website was designed using Django with sqlite (local) and Postgres (Heroku) and is my first time using jQuery.  Users are handled by Djangos integrated authentication system, and allows staff users to update the menu and to manage customer orders.  Customers can login to browse the menu and place orders.
 
 The main page to order pulls menu items from the database and provides live price updates as the user changes selection using jQuery and AJAX.  Once a user presses the "Add to Cart" button, their order will go to the cart where they can then opt to add more or checkout.  After checking out, their CartItem becomes an OrderItem and is assigned a status (pending/complete) and a date/time.  A staff user can go to the 'orders' page or the Django 'admin' page to mark orders as complete.
