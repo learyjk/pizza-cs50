@@ -8,6 +8,9 @@ https://docs.cs50.net/web/2020/x/projects/3/project3.html
 Live link (please excuse slow speeds but the hosting is free!):
 https://pizza-project3-cs50.herokuapp.com
 
+username: new_customer
+password: 123456
+
 Pinochio's Pizza Menu:
 https://www.pinocchiospizza.net/menu.html
 
